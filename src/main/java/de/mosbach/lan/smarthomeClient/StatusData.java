@@ -5,15 +5,15 @@ public class StatusData implements IStatusData {
 	private int insideTempRequirement = 20;
 	private int internalTemperature = 20;
 	private int outsideTemperature = 10;
-	private boolean stateAirConditioner = false;
-	private boolean stateHeater = false;
-	private boolean stateWindow = false;
+	private int stateAirConditioner = 0;
+	private int stateHeater = 0;
+	private int stateWindow = 0;
 
 	@Override
 	public int getInternalTemperature() {
 		return this.internalTemperature;
 	}
-	
+
 	public int getInsideTempRequirement() {
 		return this.insideTempRequirement;
 	}
@@ -24,17 +24,17 @@ public class StatusData implements IStatusData {
 	}
 
 	@Override
-	public boolean getStateAirConditioner() {
+	public int getStateAirConditioner() {
 		return this.stateAirConditioner;
 	}
 
 	@Override
-	public boolean getStateHeater() {
+	public int getStateHeater() {
 		return this.stateHeater;
 	}
 
 	@Override
-	public boolean getStateWindow() {
+	public int getStateWindow() {
 		return this.stateWindow;
 	}
 
@@ -51,15 +51,15 @@ public class StatusData implements IStatusData {
 		this.outsideTemperature = value;
 	}
 
-	public void setStateAirConditioner(boolean value) {
+	public void setStateAirConditioner(int value) {
 		this.stateAirConditioner = value;
 	}
 
-	public void setStateHeater(boolean value) {
+	public void setStateHeater(int value) {
 		this.stateHeater = value;
 	}
 
-	public void setStateWindow(boolean value) {
+	public void setStateWindow(int value) {
 		this.stateWindow = value;
 	}
 }

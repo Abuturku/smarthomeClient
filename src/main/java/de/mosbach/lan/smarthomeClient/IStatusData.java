@@ -2,15 +2,19 @@ package de.mosbach.lan.smarthomeClient;
 
 public interface IStatusData {
 
+	public static final int TRUE = 0;
+	public static final int FALSE = 1;
+	public static final int DEFEKT = -1;
+
 	public void setInsideTempRequirement(int value);
-	
+
 	public int getInternalTemperature();
 
 	public int getOutsideTemperature();
 
-	public boolean getStateAirConditioner();
+	public int getStateAirConditioner();
 
-	public boolean getStateHeater();
+	public int getStateHeater();
 
-	public boolean getStateWindow();
+	public int getStateWindow();
 }

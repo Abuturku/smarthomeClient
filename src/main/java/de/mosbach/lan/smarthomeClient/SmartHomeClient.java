@@ -72,14 +72,33 @@ public class SmartHomeClient extends Application {
 			}).start();
 		}
 
-		
 		this.loadInsideTempRequirement();
 		this.controller.start();
 		this.internalTemperature.setText(this.statusData.getInternalTemperature() + "°C");
 		this.outsideTemperature.setText(this.statusData.getOutsideTemperature() + "°C");
-		this.stateAirConditioner.setText(this.statusData.getStateAirConditioner() ? "Angeschaltet" : "Ausgeschaltet");
-		this.stateHeater.setText(this.statusData.getStateHeater() ? "Angeschaltet" : "Ausgeschaltet");
-		this.stateWindow.setText(this.statusData.getStateWindow() ? "Geoeffnet" : "Geschlossen");
+		if (this.statusData.getStateAirConditioner() == IStatusData.TRUE) {
+			this.stateAirConditioner.setText("Angeschaltet");
+		} else if (this.statusData.getStateAirConditioner() == IStatusData.FALSE) {
+			this.stateAirConditioner.setText("Ausgeschaltet");
+		} else if (this.statusData.getStateAirConditioner() == IStatusData.DEFEKT) {
+			this.stateAirConditioner.setText("Defekt");
+		}
+
+		if (this.statusData.getStateHeater() == IStatusData.TRUE) {
+			this.stateHeater.setText("Angeschaltet");
+		} else if (this.statusData.getStateHeater() == IStatusData.FALSE) {
+			this.stateHeater.setText("Ausgeschaltet");
+		} else if (this.statusData.getStateHeater() == IStatusData.DEFEKT) {
+			this.stateHeater.setText("Defekt");
+		}
+
+		if (this.statusData.getStateWindow() == IStatusData.TRUE) {
+			this.stateWindow.setText("Geoeffnet");
+		} else if (this.statusData.getStateWindow() == IStatusData.FALSE) {
+			this.stateWindow.setText("Geschlossen");
+		} else if (this.statusData.getStateWindow() == IStatusData.DEFEKT) {
+			this.stateWindow.setText("Defekt");
+		}
 
 	}
 
