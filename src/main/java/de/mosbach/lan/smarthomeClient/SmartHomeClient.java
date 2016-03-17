@@ -29,6 +29,10 @@ public class SmartHomeClient extends Application {
 	@FXML
 	private TextField insideTempRequirement;
 
+	private Controller controller;
+
+	private IStatusData statusData;
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -41,15 +45,53 @@ public class SmartHomeClient extends Application {
 
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
-
 
 	}
 
 	@FXML
 	private void refresh() {
-		 
+		if (this.controller == null) {
+			System.out.println("neuer Controller");
+			StatusData statusData = new StatusData();
+			this.controller = new Controller(statusData);
+			this.statusData = statusData;
+
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					while (true) {
+						try {
+							Thread.sleep(10000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						refresh();
+					}
+				}
+			}).start();
+		}
+
 		
-		
+		this.loadInsideTempRequirement();
+		this.controller.start();
+		this.internalTemperature.setText(this.statusData.getInternalTemperature() + "°C");
+		this.outsideTemperature.setText(this.statusData.getOutsideTemperature() + "°C");
+		this.stateAirConditioner.setText(this.statusData.getStateAirConditioner() ? "Angeschaltet" : "Ausgeschaltet");
+		this.stateHeater.setText(this.statusData.getStateHeater() ? "Angeschaltet" : "Ausgeschaltet");
+		this.stateWindow.setText(this.statusData.getStateWindow() ? "Geoeffnet" : "Geschlossen");
+
 	}
+
+	private void loadInsideTempRequirement() {
+		String value = this.insideTempRequirement.getText();
+		try {
+			int intValue = Integer.valueOf(value);
+			this.insideTempRequirement.setStyle("-fx-control-inner-background: #FFFFFF");
+			this.statusData.setInsideTempRequirement(intValue);
+		} catch (NumberFormatException e) {
+			this.insideTempRequirement.setStyle("-fx-control-inner-background: #8B0000");
+		}
+	}
+
 }
