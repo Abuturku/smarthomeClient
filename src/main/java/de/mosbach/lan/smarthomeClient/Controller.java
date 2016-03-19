@@ -20,100 +20,86 @@ public class Controller {
 
 	public synchronized void start() {
 
-		// System.out.println("Starte Vorgang");
-		// Thread loadInternalTemperatureThread = new Thread(new Runnable() {
-		//
-		// @Override
-		// public void run() {
-		loadInternalTemperature();
-		// }
-		// });
+		Thread loadInternalTemperatureThread = new Thread(new Runnable() {
 
-		// Thread loadOutsideTemperatureThread = new Thread(new Runnable() {
-		//
-		// @Override
-		// public void run() {
-		loadOutsideTemperature();
-		// }
-		// });
+			@Override
+			public void run() {
+				loadInternalTemperature();
+			}
+		});
+		Thread loadOutsideTemperatureThread = new Thread(new Runnable() {
 
-		// System.out.println("Starte loadInternalTemperatureThread");
-		// loadInternalTemperatureThread.start();
-		// System.out.println("Starte loadOutsideTemperatureThread");
-		// loadOutsideTemperatureThread.start();
-		// System.out.println("Warte auf loadInternalTemperatureThread");
-		// if (loadInternalTemperatureThread.isAlive()) {
-		// try {
-		// loadInternalTemperatureThread.join();
-		// } catch (InterruptedException e) {
-		// }
-		// }
-		//
-		// System.out.println("Warte auf loadOutsideTemperatureThread");
-		// if (loadOutsideTemperatureThread.isAlive()) {
-		// try {
-		// loadOutsideTemperatureThread.join();
-		// } catch (InterruptedException e) {
-		// }
-		// }
+			@Override
+			public void run() {
+				loadOutsideTemperature();
+			}
+		});
+		loadInternalTemperatureThread.start();
+		loadOutsideTemperatureThread.start();
+
+		try {
+			loadInternalTemperatureThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			loadOutsideTemperatureThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		if (this.statusData.getOutsideTemperature() == -1) {
+			return;
+		}
 
 		if (this.statusData.getInternalTemperature() != this.statusData.getOutsideTemperature()) {
 			adjustTemperature();
 		} else {
-			// Thread turnOffAirConditionerThread = new Thread(new Runnable() {
-			//
-			// @Override
-			// public void run() {
-			turnOffAirConditioner();
-			// }
-			// });
 
-			// Thread turnOffHeaterThread = new Thread(new Runnable() {
-			//
-			// @Override
-			// public void run() {
-			turnOffHeater();
-			// }
-			// });
+			Thread turnOffAirConditionerThread = new Thread(new Runnable() {
 
-			// Thread closeWindowThread = new Thread(new Runnable() {
-			//
-			// @Override
-			// public void run() {
-			closeWindow();
-			// }
-			// });
+				@Override
+				public void run() {
+					turnOffAirConditioner();
+				}
+			});
 
-			// System.out.println("Starte turnOffAirConditionerThread");
-			// turnOffAirConditionerThread.start();
-			// System.out.println("Starte turnOffHeaterThread");
-			// turnOffHeaterThread.start();
-			// System.out.println("Starte closeWindowThread");
-			// closeWindowThread.start();
-			//
-			// System.out.println("Warte auf turnOffAirConditionerThread");
-			// if (turnOffAirConditionerThread.isAlive()) {
-			// try {
-			// turnOffAirConditionerThread.join();
-			// } catch (InterruptedException e) {
-			// }
-			// }
-			//
-			// System.out.println("Warte auf turnOffHeaterThread");
-			// if (turnOffHeaterThread.isAlive()) {
-			// try {
-			// turnOffHeaterThread.join();
-			// } catch (InterruptedException e) {
-			// }
-			// }
-			//
-			// System.out.println("Warte auf closeWindowThread");
-			// if (closeWindowThread.isAlive()) {
-			// try {
-			// closeWindowThread.join();
-			// } catch (InterruptedException e) {
-			// }
-			// }
+			Thread turnOffHeaterThread = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					turnOffHeater();
+				}
+			});
+
+			Thread closeWindowThread = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					closeWindow();
+				}
+			});
+			turnOffAirConditionerThread.start();
+			turnOffHeaterThread.start();
+			closeWindowThread.start();
+
+			try {
+				turnOffAirConditionerThread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			try {
+				turnOffHeaterThread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			try {
+				closeWindowThread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
 		}
 
 	}
@@ -189,9 +175,11 @@ public class Controller {
 
 			final float outsideTemperature = port.getMosbachTemperatureToday("test");
 			this.statusData.setOutsideTemperature((int) outsideTemperature);
+			System.out.println("OutsideTemperature was loaded");
 		} catch (JAXRException e) {
 			System.err.println(e.getMessage());
-			this.statusData.setOutsideTemperature(20);
+			this.statusData.setOutsideTemperature(StatusData.DEFEKT);
+			System.err.println("Error while loading OutsideTemperature");
 		}
 
 	}

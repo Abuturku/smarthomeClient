@@ -75,7 +75,15 @@ public class SmartHomeClient extends Application {
 		this.loadInsideTempRequirement();
 		this.controller.start();
 		this.internalTemperature.setText(this.statusData.getInternalTemperature() + "°C");
-		this.outsideTemperature.setText(this.statusData.getOutsideTemperature() + "°C");
+
+		if (this.statusData.getOutsideTemperature() == IStatusData.DEFEKT) {
+			this.outsideTemperature.setText("ERROR");
+			this.outsideTemperature.setStyle("-fx-control-inner-background: #8B0000");
+		} else {
+			this.outsideTemperature.setText(this.statusData.getOutsideTemperature() + "°C");
+			this.outsideTemperature.setStyle("-fx-control-inner-background: lightyellow");
+		}
+
 		if (this.statusData.getStateAirConditioner() == IStatusData.TRUE) {
 			this.stateAirConditioner.setText("Angeschaltet");
 		} else if (this.statusData.getStateAirConditioner() == IStatusData.FALSE) {
