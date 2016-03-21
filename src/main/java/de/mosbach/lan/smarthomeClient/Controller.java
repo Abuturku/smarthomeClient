@@ -2,7 +2,6 @@ package de.mosbach.lan.smarthomeClient;
 
 import java.util.Collection;
 
-import javax.xml.registry.JAXRException;
 import javax.xml.ws.BindingProvider;
 
 import com.google.common.collect.Iterables;
@@ -61,7 +60,7 @@ public class Controller {
 
 				@Override
 				public void run() {
-					turnOffAirConditioner();
+					setAirConditionerState(IStatusData.FALSE);
 				}
 			});
 
@@ -69,7 +68,7 @@ public class Controller {
 
 				@Override
 				public void run() {
-					turnOffHeater();
+					setHeaterState(IStatusData.FALSE);
 				}
 			});
 
@@ -77,7 +76,7 @@ public class Controller {
 
 				@Override
 				public void run() {
-					closeWindow();
+					setWindowState(IStatusData.FALSE);
 				}
 			});
 			turnOffAirConditionerThread.start();
@@ -106,53 +105,138 @@ public class Controller {
 
 	private void adjustTemperature() {
 		if (this.statusData.getInternalTemperature() > this.statusData.getInsideTempRequirement()) {
-			turnOffHeater();
+			setHeaterState(IStatusData.FALSE);
 			if (this.statusData.getOutsideTemperature() > this.statusData.getInsideTempRequirement()) {
-				closeWindow();
-				turnOnAirConditioner();
+				setWindowState(IStatusData.FALSE);
+				setAirConditionerState(IStatusData.TRUE);
 			} else {
-				turnOffAirConditioner();
-				openWindow();
+				setAirConditionerState(IStatusData.FALSE);
+				setWindowState(IStatusData.TRUE);
 			}
 		} else {
-			turnOffAirConditioner();
+			setAirConditionerState(IStatusData.FALSE);
 			if (this.statusData.getOutsideTemperature() > this.statusData.getInsideTempRequirement()) {
-				turnOffHeater();
-				openWindow();
+				setHeaterState(IStatusData.FALSE);
+				setWindowState(IStatusData.TRUE);
 			} else {
-				closeWindow();
-				turnOnHeater();
+				setWindowState(IStatusData.FALSE);
+				setHeaterState(IStatusData.TRUE);
 			}
 		}
 	}
 
-	private void turnOffAirConditioner() {
-		this.statusData.setStateAirConditioner(IStatusData.FALSE);
+	private void setAirConditionerState(int value) {
+		try {
+			System.out.println("Set AirConditionerState");
+			final Collection<javax.xml.registry.infomodel.Service> outsideTemperatureServices = UddiClient
+					.getServices("WSO2", "outsideTemperatureService", 1, 0);
+
+			final javax.xml.registry.infomodel.Service outsideTemperatureServiceDescription = Iterables
+					.getFirst(outsideTemperatureServices, null);
+			String outsideTemperatureServiceEndpoint;
+			outsideTemperatureServiceEndpoint = (outsideTemperatureServiceDescription != null)
+					? UddiClient.getFirstServiceBinding(outsideTemperatureServiceDescription) : null;
+			final OutsideTemperatureService_Service ots = new OutsideTemperatureService_Service();
+			final OutsideTemperatureService port = ots.getOutsideTemperatureService();
+			final BindingProvider outsideTemperatureBp = (BindingProvider) port;
+			outsideTemperatureBp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+					outsideTemperatureServiceEndpoint);
+
+			final float airConditionerState = port.getMosbachTemperatureToday();
+
+			// this.statusData.setInternalTemperature((int) outsideTemperature);
+			System.out.println("AirConditionerState was set");
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			this.statusData.setStateAirConditioner(StatusData.DEFEKT);
+			System.err.println("Error while set AirConditionerState");
+		}
 	}
 
-	private void turnOnAirConditioner() {
-		this.statusData.setStateAirConditioner(IStatusData.TRUE);
+	private void setHeaterState(int value) {
+
+		try {
+			System.out.println("Set HeaterState");
+			final Collection<javax.xml.registry.infomodel.Service> outsideTemperatureServices = UddiClient
+					.getServices("WSO2", "outsideTemperatureService", 1, 0);
+
+			final javax.xml.registry.infomodel.Service outsideTemperatureServiceDescription = Iterables
+					.getFirst(outsideTemperatureServices, null);
+			String outsideTemperatureServiceEndpoint;
+			outsideTemperatureServiceEndpoint = (outsideTemperatureServiceDescription != null)
+					? UddiClient.getFirstServiceBinding(outsideTemperatureServiceDescription) : null;
+			final OutsideTemperatureService_Service ots = new OutsideTemperatureService_Service();
+			final OutsideTemperatureService port = ots.getOutsideTemperatureService();
+			final BindingProvider outsideTemperatureBp = (BindingProvider) port;
+			outsideTemperatureBp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+					outsideTemperatureServiceEndpoint);
+
+			final float heaterState = port.getMosbachTemperatureToday();
+
+			// this.statusData.setInternalTemperature((int) outsideTemperature);
+			System.out.println("HeaterState was set");
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			this.statusData.setStateHeater(StatusData.DEFEKT);
+			System.err.println("Error while set HeaterState");
+		}
 	}
 
-	private void turnOffHeater() {
-		this.statusData.setStateHeater(IStatusData.FALSE);
-	}
+	private void setWindowState(int value) {
+		try {
+			System.out.println("Set WindowState");
+			final Collection<javax.xml.registry.infomodel.Service> windowStateServices = UddiClient.getServices("WSO2",
+					"windowStateServices", 1, 0);
 
-	private void turnOnHeater() {
-		this.statusData.setStateHeater(IStatusData.TRUE);
-	}
+			final javax.xml.registry.infomodel.Service windowStateServicesDescription = Iterables
+					.getFirst(windowStateServices, null);
+			String windowStateServicesEndpoint;
+			windowStateServicesEndpoint = (windowStateServicesDescription != null)
+					? UddiClient.getFirstServiceBinding(windowStateServicesDescription) : null;
+			final OutsideTemperatureService_Service ots = new OutsideTemperatureService_Service();
+			final OutsideTemperatureService port = ots.getOutsideTemperatureService();
+			final BindingProvider outsideTemperatureBp = (BindingProvider) port;
+			outsideTemperatureBp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+					windowStateServicesEndpoint);
 
-	private void closeWindow() {
-		this.statusData.setStateWindow(IStatusData.FALSE);
-	}
+			final float windowState = port.getMosbachTemperatureToday();
 
-	private void openWindow() {
-		this.statusData.setStateWindow(IStatusData.TRUE);
+			// this.statusData.setInternalTemperature((int) outsideTemperature);
+			System.out.println("WindowState was set");
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			this.statusData.setStateWindow(StatusData.DEFEKT);
+			System.err.println("Error while set WindowState");
+		}
+
 	}
 
 	private void loadInternalTemperature() {
-		System.out.println("Load InternalTemperature");
-		this.statusData.setInternalTemperature(20);
+		try {
+			System.out.println("Load InternalTemperature");
+			final Collection<javax.xml.registry.infomodel.Service> internalTemperatureServices = UddiClient
+					.getServices("WSO2", "insideTemperatureService", 1, 0);
+
+			final javax.xml.registry.infomodel.Service internalTemperatureServicesDescription = Iterables
+					.getFirst(internalTemperatureServices, null);
+			String internalTemperatureServicesEndpoint;
+			internalTemperatureServicesEndpoint = (internalTemperatureServicesDescription != null)
+					? UddiClient.getFirstServiceBinding(internalTemperatureServicesDescription) : null;
+			final OutsideTemperatureService_Service ots = new OutsideTemperatureService_Service();
+			final OutsideTemperatureService port = ots.getOutsideTemperatureService();
+			final BindingProvider outsideTemperatureBp = (BindingProvider) port;
+			outsideTemperatureBp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+					internalTemperatureServicesEndpoint);
+
+			final float outsideTemperature = port.getMosbachTemperatureToday();
+			this.statusData.setInternalTemperature((int) outsideTemperature);
+			System.out.println("InternalTemperature was loaded");
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			this.statusData.setInternalTemperature(StatusData.DEFEKT);
+			System.err.println("Error while loading InternalTemperature");
+		}
+
 	}
 
 	private void loadOutsideTemperature() {
@@ -168,15 +252,15 @@ public class Controller {
 			outsideTemperatureServiceEndpoint = (outsideTemperatureServiceDescription != null)
 					? UddiClient.getFirstServiceBinding(outsideTemperatureServiceDescription) : null;
 			final OutsideTemperatureService_Service ots = new OutsideTemperatureService_Service();
-			final OutsideTemperatureService port = ots.getOutsideTemperatureServicePort();
+			final OutsideTemperatureService port = ots.getOutsideTemperatureService();
 			final BindingProvider outsideTemperatureBp = (BindingProvider) port;
 			outsideTemperatureBp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
 					outsideTemperatureServiceEndpoint);
 
-			final float outsideTemperature = port.getMosbachTemperatureToday("test");
+			final float outsideTemperature = port.getMosbachTemperatureToday();
 			this.statusData.setOutsideTemperature((int) outsideTemperature);
 			System.out.println("OutsideTemperature was loaded");
-		} catch (JAXRException e) {
+		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			this.statusData.setOutsideTemperature(StatusData.DEFEKT);
 			System.err.println("Error while loading OutsideTemperature");

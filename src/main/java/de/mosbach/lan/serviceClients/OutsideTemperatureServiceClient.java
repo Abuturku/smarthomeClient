@@ -22,11 +22,11 @@ public class OutsideTemperatureServiceClient{
 				? UddiClient.getFirstServiceBinding(outsideTemperatureServiceDescription) : null;
 				
 		final OutsideTemperatureService_Service ots = new OutsideTemperatureService_Service();
-		final OutsideTemperatureService port = ots.getOutsideTemperatureServicePort();
+		final OutsideTemperatureService port = ots.getOutsideTemperatureService();
 		final BindingProvider outsideTemperatureBp = (BindingProvider) port;
 		outsideTemperatureBp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, outsideTemperatureServiceEndpoint);
 		
-		final float outsideTemperature = port.getMosbachTemperatureToday("test");
+		final float outsideTemperature = port.getMosbachTemperatureToday();
 		System.out.println(outsideTemperature);
 		
 	}

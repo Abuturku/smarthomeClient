@@ -72,42 +72,82 @@ public class SmartHomeClient extends Application {
 			}).start();
 		}
 
+		System.out.println("--------------------");
+		System.out.println("Aktualisiere");
+		System.out.println("--------------------");
 		this.loadInsideTempRequirement();
 		this.controller.start();
-		this.internalTemperature.setText(this.statusData.getInternalTemperature() + "°C");
 
 		if (this.statusData.getOutsideTemperature() == IStatusData.DEFEKT) {
 			this.outsideTemperature.setText("ERROR");
 			this.outsideTemperature.setStyle("-fx-control-inner-background: #8B0000");
+			
+			this.internalTemperature.setText("---");
+			this.stateAirConditioner.setText("---");
+			this.stateHeater.setText("---");
+			this.stateWindow.setText("---");
+
+			this.internalTemperature.setStyle("-fx-control-inner-background: #8B0000");
+			this.stateAirConditioner.setStyle("-fx-control-inner-background: #8B0000");
+			this.stateHeater.setStyle("-fx-control-inner-background: #8B0000");
+			this.stateWindow.setStyle("-fx-control-inner-background: #8B0000");
+			
 		} else {
 			this.outsideTemperature.setText(this.statusData.getOutsideTemperature() + "°C");
 			this.outsideTemperature.setStyle("-fx-control-inner-background: lightyellow");
+
+			if (this.statusData.getInternalTemperature() == IStatusData.DEFEKT) {
+				this.internalTemperature.setText("ERROR");
+				
+				this.stateAirConditioner.setText("---");
+				this.stateHeater.setText("---");
+				this.stateWindow.setText("---");
+
+				this.internalTemperature.setStyle("-fx-control-inner-background: #8B0000");
+				this.stateAirConditioner.setStyle("-fx-control-inner-background: #8B0000");
+				this.stateHeater.setStyle("-fx-control-inner-background: #8B0000");
+				this.stateWindow.setStyle("-fx-control-inner-background: #8B0000");
+			} else {
+				this.internalTemperature.setText(this.statusData.getInternalTemperature() + "°C");
+				this.internalTemperature.setStyle("-fx-control-inner-background: lightyellow");
+				
+				if (this.statusData.getStateAirConditioner() == IStatusData.TRUE) {
+					this.stateAirConditioner.setText("Angeschaltet");
+					this.stateAirConditioner.setStyle("-fx-control-inner-background: lightyellow");
+				} else if (this.statusData.getStateAirConditioner() == IStatusData.FALSE) {
+					this.stateAirConditioner.setText("Ausgeschaltet");
+					this.stateAirConditioner.setStyle("-fx-control-inner-background: lightyellow");
+				} else if (this.statusData.getStateAirConditioner() == IStatusData.DEFEKT) {
+					this.stateAirConditioner.setText("Defekt");
+					this.stateAirConditioner.setStyle("-fx-control-inner-background: #8B0000");
+				}
+
+				if (this.statusData.getStateHeater() == IStatusData.TRUE) {
+					this.stateHeater.setText("Angeschaltet");
+					this.stateHeater.setStyle("-fx-control-inner-background: lightyellow");
+				} else if (this.statusData.getStateHeater() == IStatusData.FALSE) {
+					this.stateHeater.setText("Ausgeschaltet");
+					this.stateHeater.setStyle("-fx-control-inner-background: lightyellow");
+				} else if (this.statusData.getStateHeater() == IStatusData.DEFEKT) {
+					this.stateHeater.setText("Defekt");
+					this.stateHeater.setStyle("-fx-control-inner-background: #8B0000");
+				}
+
+				if (this.statusData.getStateWindow() == IStatusData.TRUE) {
+					this.stateWindow.setText("Geoeffnet");
+					this.stateWindow.setStyle("-fx-control-inner-background: lightyellow");
+				} else if (this.statusData.getStateWindow() == IStatusData.FALSE) {
+					this.stateWindow.setText("Geschlossen");
+					this.stateWindow.setStyle("-fx-control-inner-background: lightyellow");
+				} else if (this.statusData.getStateWindow() == IStatusData.DEFEKT) {
+					this.stateWindow.setText("Defekt");
+					this.stateWindow.setStyle("-fx-control-inner-background: #8B0000");
+				}
+
+			}
 		}
 
-		if (this.statusData.getStateAirConditioner() == IStatusData.TRUE) {
-			this.stateAirConditioner.setText("Angeschaltet");
-		} else if (this.statusData.getStateAirConditioner() == IStatusData.FALSE) {
-			this.stateAirConditioner.setText("Ausgeschaltet");
-		} else if (this.statusData.getStateAirConditioner() == IStatusData.DEFEKT) {
-			this.stateAirConditioner.setText("Defekt");
-		}
-
-		if (this.statusData.getStateHeater() == IStatusData.TRUE) {
-			this.stateHeater.setText("Angeschaltet");
-		} else if (this.statusData.getStateHeater() == IStatusData.FALSE) {
-			this.stateHeater.setText("Ausgeschaltet");
-		} else if (this.statusData.getStateHeater() == IStatusData.DEFEKT) {
-			this.stateHeater.setText("Defekt");
-		}
-
-		if (this.statusData.getStateWindow() == IStatusData.TRUE) {
-			this.stateWindow.setText("Geoeffnet");
-		} else if (this.statusData.getStateWindow() == IStatusData.FALSE) {
-			this.stateWindow.setText("Geschlossen");
-		} else if (this.statusData.getStateWindow() == IStatusData.DEFEKT) {
-			this.stateWindow.setText("Defekt");
-		}
-
+		
 	}
 
 	private void loadInsideTempRequirement() {
