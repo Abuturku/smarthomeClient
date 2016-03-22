@@ -1,5 +1,8 @@
 package de.mosbach.lan.smarthomeClient;
 
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,6 +32,9 @@ public class SmartHomeClient extends Application {
 	@FXML
 	private TextField insideTempRequirement;
 
+	@FXML
+	private TextField roomName;
+
 	private Controller controller;
 
 	private IStatusData statusData;
@@ -50,10 +56,16 @@ public class SmartHomeClient extends Application {
 
 	@FXML
 	private void refresh() {
+
 		if (this.controller == null) {
+			System.out.println("Frage Raumname ab");
+			String roomID = this.roomName.getText();
+			this.roomName.setEditable(false);
+			this.roomName.setStyle("-fx-control-inner-background: lightyellow");
+
 			System.out.println("neuer Controller");
 			StatusData statusData = new StatusData();
-			this.controller = new Controller(statusData);
+			this.controller = new Controller(statusData, roomID);
 			this.statusData = statusData;
 
 			new Thread(new Runnable() {
@@ -78,10 +90,10 @@ public class SmartHomeClient extends Application {
 		this.loadInsideTempRequirement();
 		this.controller.start();
 
-		if (this.statusData.getOutsideTemperature() == IStatusData.DEFEKT) {
+		if (this.statusData.getOutsideTemperature() == IStatusData.DEFECT) {
 			this.outsideTemperature.setText("ERROR");
 			this.outsideTemperature.setStyle("-fx-control-inner-background: #8B0000");
-			
+
 			this.internalTemperature.setText("---");
 			this.stateAirConditioner.setText("---");
 			this.stateHeater.setText("---");
@@ -91,14 +103,14 @@ public class SmartHomeClient extends Application {
 			this.stateAirConditioner.setStyle("-fx-control-inner-background: #8B0000");
 			this.stateHeater.setStyle("-fx-control-inner-background: #8B0000");
 			this.stateWindow.setStyle("-fx-control-inner-background: #8B0000");
-			
+
 		} else {
 			this.outsideTemperature.setText(this.statusData.getOutsideTemperature() + "°C");
 			this.outsideTemperature.setStyle("-fx-control-inner-background: lightyellow");
 
-			if (this.statusData.getInternalTemperature() == IStatusData.DEFEKT) {
+			if (this.statusData.getInternalTemperature() == IStatusData.DEFECT) {
 				this.internalTemperature.setText("ERROR");
-				
+
 				this.stateAirConditioner.setText("---");
 				this.stateHeater.setText("---");
 				this.stateWindow.setText("---");
@@ -110,14 +122,14 @@ public class SmartHomeClient extends Application {
 			} else {
 				this.internalTemperature.setText(this.statusData.getInternalTemperature() + "°C");
 				this.internalTemperature.setStyle("-fx-control-inner-background: lightyellow");
-				
+
 				if (this.statusData.getStateAirConditioner() == IStatusData.TRUE) {
 					this.stateAirConditioner.setText("Angeschaltet");
 					this.stateAirConditioner.setStyle("-fx-control-inner-background: lightyellow");
 				} else if (this.statusData.getStateAirConditioner() == IStatusData.FALSE) {
 					this.stateAirConditioner.setText("Ausgeschaltet");
 					this.stateAirConditioner.setStyle("-fx-control-inner-background: lightyellow");
-				} else if (this.statusData.getStateAirConditioner() == IStatusData.DEFEKT) {
+				} else if (this.statusData.getStateAirConditioner() == IStatusData.DEFECT) {
 					this.stateAirConditioner.setText("Defekt");
 					this.stateAirConditioner.setStyle("-fx-control-inner-background: #8B0000");
 				}
@@ -128,7 +140,7 @@ public class SmartHomeClient extends Application {
 				} else if (this.statusData.getStateHeater() == IStatusData.FALSE) {
 					this.stateHeater.setText("Ausgeschaltet");
 					this.stateHeater.setStyle("-fx-control-inner-background: lightyellow");
-				} else if (this.statusData.getStateHeater() == IStatusData.DEFEKT) {
+				} else if (this.statusData.getStateHeater() == IStatusData.DEFECT) {
 					this.stateHeater.setText("Defekt");
 					this.stateHeater.setStyle("-fx-control-inner-background: #8B0000");
 				}
@@ -139,7 +151,7 @@ public class SmartHomeClient extends Application {
 				} else if (this.statusData.getStateWindow() == IStatusData.FALSE) {
 					this.stateWindow.setText("Geschlossen");
 					this.stateWindow.setStyle("-fx-control-inner-background: lightyellow");
-				} else if (this.statusData.getStateWindow() == IStatusData.DEFEKT) {
+				} else if (this.statusData.getStateWindow() == IStatusData.DEFECT) {
 					this.stateWindow.setText("Defekt");
 					this.stateWindow.setStyle("-fx-control-inner-background: #8B0000");
 				}
@@ -147,7 +159,6 @@ public class SmartHomeClient extends Application {
 			}
 		}
 
-		
 	}
 
 	private void loadInsideTempRequirement() {

@@ -8,16 +8,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for getMosbachTemperatureTodayResponse complex type.
+ * <p>Java class for getInsideTemperatureResponse complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="getMosbachTemperatureTodayResponse">
+ * &lt;complexType name="getInsideTemperatureResponse">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}float"/>
+ *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -27,19 +27,19 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getMosbachTemperatureTodayResponse", propOrder = {
+@XmlType(name = "getInsideTemperatureResponse", propOrder = {
     "_return"
 })
-public class GetMosbachTemperatureTodayResponse {
+public class GetInsideTemperatureResponse {
 
     @XmlElement(name = "return")
-    protected float _return;
+    protected int _return;
 
     /**
      * Gets the value of the return property.
      * 
      */
-    public float getReturn() {
+    public int getReturn() {
         return _return;
     }
 
@@ -47,7 +47,7 @@ public class GetMosbachTemperatureTodayResponse {
      * Sets the value of the return property.
      * 
      */
-    public void setReturn(float value) {
+    public void setReturn(int value) {
         this._return = value;
     }
 
