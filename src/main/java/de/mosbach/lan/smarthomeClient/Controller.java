@@ -212,31 +212,38 @@ public class Controller {
 	}
 
 	private void loadInternalTemperature() {
-		try {
-			System.out.println("Load InternalTemperature");
-			final Collection<javax.xml.registry.infomodel.Service> internalTemperatureServices = UddiClient
-					.getServices("WSO2", "insideTemperatureService", 1, 0);
-
-			final javax.xml.registry.infomodel.Service internalTemperatureServicesDescription = Iterables
-					.getFirst(internalTemperatureServices, null);
-			String internalTemperatureServicesEndpoint;
-			internalTemperatureServicesEndpoint = (internalTemperatureServicesDescription != null)
-					? UddiClient.getFirstServiceBinding(internalTemperatureServicesDescription) : null;
-			final OutsideTemperatureService_Service ots = new OutsideTemperatureService_Service();
-			final OutsideTemperatureService port = ots.getOutsideTemperatureService();
-			final BindingProvider outsideTemperatureBp = (BindingProvider) port;
-			outsideTemperatureBp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-					internalTemperatureServicesEndpoint);
-
-			final float outsideTemperature = port.getMosbachTemperatureToday();
-			this.statusData.setInternalTemperature((int) outsideTemperature);
-			System.out.println("InternalTemperature was loaded");
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-			this.statusData.setInternalTemperature(StatusData.DEFEKT);
-			System.err.println("Error while loading InternalTemperature");
-		}
-
+		// try {
+		// System.out.println("Load InternalTemperature");
+		// final Collection<javax.xml.registry.infomodel.Service>
+		// internalTemperatureServices = UddiClient
+		// .getServices("WSO2", "insideTemperatureService", 1, 0);
+		//
+		// final javax.xml.registry.infomodel.Service
+		// internalTemperatureServicesDescription = Iterables
+		// .getFirst(internalTemperatureServices, null);
+		// String internalTemperatureServicesEndpoint;
+		// internalTemperatureServicesEndpoint =
+		// (internalTemperatureServicesDescription != null)
+		// ?
+		// UddiClient.getFirstServiceBinding(internalTemperatureServicesDescription)
+		// : null;
+		// final OutsideTemperatureService_Service ots = new
+		// OutsideTemperatureService_Service();
+		// final OutsideTemperatureService port =
+		// ots.getOutsideTemperatureService();
+		// final BindingProvider outsideTemperatureBp = (BindingProvider) port;
+		// outsideTemperatureBp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+		// internalTemperatureServicesEndpoint);
+		//
+		// final float outsideTemperature = port.getMosbachTemperatureToday();
+		// this.statusData.setInternalTemperature((int) outsideTemperature);
+		// System.out.println("InternalTemperature was loaded");
+		// } catch (Exception e) {
+		// System.err.println(e.getMessage());
+		// this.statusData.setInternalTemperature(StatusData.DEFEKT);
+		// System.err.println("Error while loading InternalTemperature");
+		// }
+		this.statusData.setInternalTemperature(111);
 	}
 
 	private void loadOutsideTemperature() {
