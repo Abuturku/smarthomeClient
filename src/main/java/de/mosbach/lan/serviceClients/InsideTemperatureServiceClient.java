@@ -2,13 +2,14 @@ package de.mosbach.lan.serviceClients;
 
 import java.util.Collection;
 
-import javax.xml.registry.JAXRException;
 import javax.xml.ws.BindingProvider;
 
-import com.google.common.collect.Iterables; 
+import com.google.common.collect.Iterables;
 import de.mosbach.lan.smarthomeClient.IStatusData;
 import de.mosbach.lan.smarthomeClient.StatusData;
 import de.mosbach.lan.serviceClients.UddiClient;
+import de.mosbach.lan.smarthome.services.InsideTemperatureService;
+import de.mosbach.lan.smarthome.services.InsideTemperatureService_Service;
 
 public class InsideTemperatureServiceClient {
 	private InsideTemperatureService port;
@@ -40,12 +41,25 @@ public class InsideTemperatureServiceClient {
 
 	}
 
-	public int getTemperature(IStatusData statusData) {
+	public int getTemperature(StatusData statusData) {
 		if (this.port == null) {
 			return IStatusData.DEFECT;
 		} else {
-			final float insideTemperature = this.port
-			return (int) insideTemperature;
+			de.mosbach.lan.smarthome.services.StatusData tempStatusData = new de.mosbach.lan.smarthome.services.StatusData();
+			tempStatusData.setInsideTempRequirement(statusData.getInsideTempRequirement());
+			tempStatusData.setInternalTemperature(statusData.getInternalTemperature());
+			tempStatusData.setOutsideTemperature(statusData.getOutsideTemperature());
+			tempStatusData.setStateAirConditioner(statusData.getStateAirConditioner());
+			tempStatusData.setStateHeater(statusData.getStateHeater());
+			tempStatusData.setStateWindow(statusData.getStateWindow());
+			System.out.println(tempStatusData.getInsideTempRequirement());
+			System.out.println(tempStatusData.getOutsideTemperature());
+			System.out.println(tempStatusData.getStateWindow());
+			 
+			int temperatur = this.port.getTemperature(this.roomID, tempStatusData);
+			
+			System.out.println(temperatur);
+			return temperatur;
 		}
 	}
 }

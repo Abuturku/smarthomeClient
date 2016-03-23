@@ -1,14 +1,8 @@
 package de.mosbach.lan.smarthomeClient;
 
-import java.util.Collection;
-
-import javax.xml.ws.BindingProvider;
-
-import com.google.common.collect.Iterables;
-
 import de.mosbach.lan.serviceClients.InsideTemperatureServiceClient;
 import de.mosbach.lan.serviceClients.OutsideTemperatureServiceClient;
-import de.mosbach.lan.serviceClients.SmartHomeControlServiceClient; 
+import de.mosbach.lan.serviceClients.SmartHomeControlServiceClient;
 
 public class Controller {
 	private final String roomID;
@@ -64,7 +58,7 @@ public class Controller {
 		if (this.statusData.getInternalTemperature() != this.statusData.getOutsideTemperature()) {
 			adjustTemperature();
 		} else {
-			int[] status = this.smartHomeControllerServiceClient.closeAll();
+			int[] status = this.smartHomeControllerServiceClient.shutdownAll();
 			this.statusData.setStateWindow(status[0]);
 			this.statusData.setStateHeater(status[1]);
 			this.statusData.setStateAirConditioner(status[2]);
@@ -72,15 +66,18 @@ public class Controller {
 
 	}
 
+	/**
+	 * TODO: Das hier ist kein Clean Code !!!!!
+	 */
 	private void adjustTemperature() {
 		if (this.statusData.getInternalTemperature() > this.statusData.getInsideTempRequirement()) {
 			if (this.statusData.getOutsideTemperature() < this.statusData.getInsideTempRequirement()) {
-				int[] status = this.smartHomeControllerServiceClient.openWindow();
+				int[] status = this.smartHomeControllerServiceClient.openWindows();
 				this.statusData.setStateWindow(status[0]);
 				this.statusData.setStateHeater(status[1]);
 				this.statusData.setStateAirConditioner(status[2]);
 			} else {
-				int[] status = this.smartHomeControllerServiceClient.turnOnAirCondition();
+				int[] status = this.smartHomeControllerServiceClient.turnOnAirConditioner();
 				this.statusData.setStateWindow(status[0]);
 				this.statusData.setStateHeater(status[1]);
 				this.statusData.setStateAirConditioner(status[2]);
@@ -88,12 +85,12 @@ public class Controller {
 			}
 		} else {
 			if (this.statusData.getOutsideTemperature() > this.statusData.getInsideTempRequirement()) {
-				int[] status = this.smartHomeControllerServiceClient.openWindow();
+				int[] status = this.smartHomeControllerServiceClient.openWindows();
 				this.statusData.setStateWindow(status[0]);
 				this.statusData.setStateHeater(status[1]);
 				this.statusData.setStateAirConditioner(status[2]);
 			} else {
-				int[] status = this.smartHomeControllerServiceClient.turnOnHeater();
+				int[] status = this.smartHomeControllerServiceClient.turnOnHeaters();
 				this.statusData.setStateWindow(status[0]);
 				this.statusData.setStateHeater(status[1]);
 				this.statusData.setStateAirConditioner(status[2]);
@@ -102,7 +99,7 @@ public class Controller {
 	}
 
 	private void loadInternalTemperature() {
-		this.statusData.setInternalTemperature(20);
+		this.statusData.setInternalTemperature(this.internalTemperatureServiceClient.getTemperature(statusData));
 	}
 
 	private void loadOutsideTemperature() {
