@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.canvas.*?>
@@ -9,12 +10,12 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="600.0" style="-fx-background-color: whitesmoke;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.mosbach.lan.smarthomeClient.SmartHomeClient">
    <children>
-      <Text fill="#1a7921" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Willkommen in Ihrem LAN-Smarthome!" textAlignment="CENTER" wrappingWidth="600.0" y="10.0">
+      <Text fill="#1a7921" layoutX="181.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Willkommen in Ihrem LAN-Smarthome!" textAlignment="CENTER" wrappingWidth="415.0" y="10.0">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Text>
-      <Pane layoutX="104.0" layoutY="76.0" prefHeight="85.0" prefWidth="176.0" style="-fx-background-color: bisque;">
+      <Pane layoutX="212.0" layoutY="91.0" prefHeight="85.0" prefWidth="176.0" style="-fx-background-color: bisque;">
          <children>
             <Text layoutX="19.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Innentemperatur:" />
             <TextField id="insideTemperature" fx:id="internalTemperature" alignment="CENTER" editable="false" layoutX="10.0" layoutY="40.0" pickOnBounds="false" prefHeight="39.0" prefWidth="156.0" style="-fx-background-color: lightyellow;" text="---">
@@ -23,7 +24,7 @@
                </font></TextField>
          </children>
       </Pane>
-      <Pane layoutX="16.0" layoutY="178.0" prefHeight="85.0" prefWidth="176.0" style="-fx-background-color: thistle;">
+      <Pane layoutX="12.0" layoutY="202.0" prefHeight="85.0" prefWidth="176.0" style="-fx-background-color: thistle;">
          <children>
             <Text layoutX="30.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status Fenster:" />
             <TextField id="windowStatus" fx:id="stateWindow" alignment="CENTER" editable="false" layoutX="10.0" layoutY="40.0" pickOnBounds="false" prefHeight="39.0" prefWidth="156.0" style="-fx-background-color: lightyellow;" text="---">
@@ -32,7 +33,7 @@
                </font></TextField>
          </children>
       </Pane>
-      <Pane layoutX="212.0" layoutY="178.0" prefHeight="85.0" prefWidth="176.0" style="-fx-background-color: lightsalmon;">
+      <Pane layoutX="212.0" layoutY="202.0" prefHeight="85.0" prefWidth="176.0" style="-fx-background-color: lightsalmon;">
          <children>
             <Text layoutX="26.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status Heizung:" />
             <TextField id="heaterStatus" fx:id="stateHeater" alignment="CENTER" editable="false" layoutX="10.0" layoutY="40.0" pickOnBounds="false" prefHeight="39.0" prefWidth="156.0" style="-fx-background-color: lightyellow;" text="---">
@@ -41,7 +42,7 @@
                </font></TextField>
          </children>
       </Pane>
-      <Pane layoutX="410.0" layoutY="178.0" prefHeight="85.0" prefWidth="176.0" style="-fx-background-color: paleturquoise;">
+      <Pane layoutX="410.0" layoutY="202.0" prefHeight="85.0" prefWidth="176.0" style="-fx-background-color: paleturquoise;">
          <children>
             <Text layoutX="11.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status Klimaanlage:" />
             <TextField id="airConStatus" fx:id="stateAirConditioner" alignment="CENTER" editable="false" layoutX="10.0" layoutY="40.0" pickOnBounds="false" prefHeight="39.0" prefWidth="156.0" style="-fx-background-color: lightyellow;" text="---">
@@ -50,7 +51,7 @@
                </font></TextField>
          </children>
       </Pane>
-      <Pane layoutX="322.0" layoutY="76.0" prefHeight="85.0" prefWidth="176.0" style="-fx-background-color: bisque;">
+      <Pane layoutX="410.0" layoutY="91.0" prefHeight="85.0" prefWidth="176.0" style="-fx-background-color: bisque;">
          <children>
             <Text layoutX="16.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Außentemperatur:" />
             <TextField id="outsideTemperature" fx:id="outsideTemperature" alignment="CENTER" editable="false" layoutX="10.0" layoutY="40.0" pickOnBounds="false" prefHeight="39.0" prefWidth="156.0" style="-fx-background-color: lightyellow;" text="---">
@@ -59,18 +60,23 @@
                </font></TextField>
          </children>
       </Pane>
-      <Pane layoutX="212.0" layoutY="290.0" prefHeight="85.0" prefWidth="176.0" style="-fx-background-color: bisque;">
+      <Pane layoutX="212.0" layoutY="313.0" prefHeight="85.0" prefWidth="176.0" style="-fx-background-color: bisque;">
          <children>
             <Text layoutX="10.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wunschtemperatur:" />
             <TextField id="insideTempRequirement" fx:id="insideTempRequirement" alignment="CENTER" layoutX="10.0" layoutY="40.0" prefHeight="39.0" prefWidth="156.0" />
          </children>
       </Pane>
-      <Pane layoutX="16.0" layoutY="290.0" prefHeight="85.0" prefWidth="176.0" style="-fx-background-color: bisque;">
+      <Pane layoutX="12.0" layoutY="313.0" prefHeight="85.0" prefWidth="176.0" style="-fx-background-color: bisque;">
          <children>
             <Text layoutX="41.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Raumname:" />
             <TextField id="insideTempRequirement" fx:id="roomName" alignment="CENTER" layoutX="10.0" layoutY="40.0" prefHeight="39.0" prefWidth="156.0" style="-fx-background-color: lightyellow;" text="A1" />
          </children>
       </Pane>
-      <Button id="newInsideTempRequirement" layoutX="420.0" layoutY="313.0" mnemonicParsing="false" onAction="#refresh" prefHeight="39.0" prefWidth="156.0" style="-fx-base: lightgreen;" text="Aktualisieren" />
+      <Button id="newInsideTempRequirement" layoutX="420.0" layoutY="336.0" mnemonicParsing="false" onAction="#refresh" prefHeight="39.0" prefWidth="156.0" style="-fx-base: lightgreen;" text="Aktualisieren" />
+      <ImageView fitHeight="133.0" fitWidth="154.0" layoutX="23.0" layoutY="41.0">
+         <image>
+            <Image url="@../../../../../../../../Logo.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>
