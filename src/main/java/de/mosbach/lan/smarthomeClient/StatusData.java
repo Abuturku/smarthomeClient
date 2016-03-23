@@ -14,6 +14,7 @@ public class StatusData implements IStatusData {
 		return this.internalTemperature;
 	}
 
+	@Override
 	public int getInsideTempRequirement() {
 		return this.insideTempRequirement;
 	}

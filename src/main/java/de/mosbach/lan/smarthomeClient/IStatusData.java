@@ -7,6 +7,8 @@ public interface IStatusData {
 	public static final int DEFECT = -1;
 
 	public void setInsideTempRequirement(int value);
+	
+	public int getInsideTempRequirement();
 
 	public int getInternalTemperature();
 
