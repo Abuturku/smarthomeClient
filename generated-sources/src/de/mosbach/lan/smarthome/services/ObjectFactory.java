@@ -35,19 +35,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetMosbachTemperatureTodayResponse }
-     * 
-     */
-    public GetMosbachTemperatureTodayResponse createGetMosbachTemperatureTodayResponse() {
-        return new GetMosbachTemperatureTodayResponse();
-    }
-
-    /**
      * Create an instance of {@link GetMosbachTemperatureToday }
      * 
      */
     public GetMosbachTemperatureToday createGetMosbachTemperatureToday() {
         return new GetMosbachTemperatureToday();
+    }
+
+    /**
+     * Create an instance of {@link GetMosbachTemperatureTodayResponse }
+     * 
+     */
+    public GetMosbachTemperatureTodayResponse createGetMosbachTemperatureTodayResponse() {
+        return new GetMosbachTemperatureTodayResponse();
     }
 
     /**
