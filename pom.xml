@@ -104,18 +104,6 @@
 										<extraarg>-client</extraarg>
 									</extraargs>
 								</wsdlOption>
-							</wsdlOptions>
-						</configuration>
-						<goals>
-							<goal>wsdl2java</goal>
-						</goals>
-					</execution>
-						<execution>
-						<id>generate-sources</id>
-						<phase>generate-sources</phase>
-						<configuration>
-							<sourceRoot>${basedir}/generated-sources/src</sourceRoot>
-							<wsdlOptions>
 								<wsdlOption>
 									<wsdl>http://10.50.12.187:9763/smartHomeServices/services/outsideTemperatureService?wsdl</wsdl>
 									<extraargs>

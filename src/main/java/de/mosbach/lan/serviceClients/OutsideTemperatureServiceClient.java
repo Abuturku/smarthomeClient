@@ -2,13 +2,13 @@ package de.mosbach.lan.serviceClients;
 
 import java.util.Collection;
 
-import javax.xml.registry.JAXRException;
 import javax.xml.ws.BindingProvider;
 
 import com.google.common.collect.Iterables;
  
+import de.mosbach.lan.smarthome.services.OutsideTemperatureService;
+import de.mosbach.lan.smarthome.services.OutsideTemperatureService_Service;
 import de.mosbach.lan.smarthomeClient.IStatusData;
-import de.mosbach.lan.smarthomeClient.StatusData;
 import de.mosbach.lan.serviceClients.UddiClient;
 
 public class OutsideTemperatureServiceClient {
