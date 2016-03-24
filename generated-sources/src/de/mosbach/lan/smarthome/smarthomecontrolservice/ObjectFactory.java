@@ -41,22 +41,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link TurnOnAirConditionerResponse }
-     * 
-     */
-    public TurnOnAirConditionerResponse createTurnOnAirConditionerResponse() {
-        return new TurnOnAirConditionerResponse();
-    }
-
-    /**
-     * Create an instance of {@link TurnOnHeater }
-     * 
-     */
-    public TurnOnHeater createTurnOnHeater() {
-        return new TurnOnHeater();
-    }
-
-    /**
      * Create an instance of {@link TurnOnAirConditioner }
      * 
      */
@@ -65,11 +49,43 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ShutdownAll }
+     * 
+     */
+    public ShutdownAll createShutdownAll() {
+        return new ShutdownAll();
+    }
+
+    /**
      * Create an instance of {@link OpenWindows }
      * 
      */
     public OpenWindows createOpenWindows() {
         return new OpenWindows();
+    }
+
+    /**
+     * Create an instance of {@link TurnOnAirConditionerResponse }
+     * 
+     */
+    public TurnOnAirConditionerResponse createTurnOnAirConditionerResponse() {
+        return new TurnOnAirConditionerResponse();
+    }
+
+    /**
+     * Create an instance of {@link TurnOnHeaterResponse }
+     * 
+     */
+    public TurnOnHeaterResponse createTurnOnHeaterResponse() {
+        return new TurnOnHeaterResponse();
+    }
+
+    /**
+     * Create an instance of {@link TurnOnHeater }
+     * 
+     */
+    public TurnOnHeater createTurnOnHeater() {
+        return new TurnOnHeater();
     }
 
     /**
@@ -86,22 +102,6 @@ public class ObjectFactory {
      */
     public OpenWindowsResponse createOpenWindowsResponse() {
         return new OpenWindowsResponse();
-    }
-
-    /**
-     * Create an instance of {@link ShutdownAll }
-     * 
-     */
-    public ShutdownAll createShutdownAll() {
-        return new ShutdownAll();
-    }
-
-    /**
-     * Create an instance of {@link TurnOnHeaterResponse }
-     * 
-     */
-    public TurnOnHeaterResponse createTurnOnHeaterResponse() {
-        return new TurnOnHeaterResponse();
     }
 
     /**

@@ -55,7 +55,7 @@ public class Controller {
 			return;
 		}
 
-		if (this.statusData.getInternalTemperature() != this.statusData.getOutsideTemperature()) {
+		if (this.statusData.getInternalTemperature() != this.statusData.getInsideTempRequirement()) {
 			adjustTemperature();
 		} else {
 			int[] status = this.smartHomeControllerServiceClient.shutdownAll();

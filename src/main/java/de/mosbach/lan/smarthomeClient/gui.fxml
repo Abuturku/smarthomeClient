@@ -69,13 +69,13 @@
       <Pane layoutX="12.0" layoutY="313.0" prefHeight="85.0" prefWidth="176.0" style="-fx-background-color: bisque;">
          <children>
             <Text layoutX="41.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Raumname:" />
-            <TextField id="insideTempRequirement" fx:id="roomName" alignment="CENTER" layoutX="10.0" layoutY="40.0" prefHeight="39.0" prefWidth="156.0" style="-fx-background-color: lightyellow;" text="A1" />
+            <TextField id="insideTempRequirement" fx:id="roomName" alignment="CENTER" layoutX="10.0" layoutY="40.0" prefHeight="39.0" prefWidth="156.0" text="A1" />
          </children>
       </Pane>
       <Button id="newInsideTempRequirement" layoutX="420.0" layoutY="336.0" mnemonicParsing="false" onAction="#refresh" prefHeight="39.0" prefWidth="156.0" style="-fx-base: lightgreen;" text="Aktualisieren" />
-      <ImageView fitHeight="133.0" fitWidth="154.0" layoutX="23.0" layoutY="41.0">
+      <ImageView fitHeight="133.0" fitWidth="154.0" layoutX="23.0" layoutY="41.0" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../../../Logo.png" />
+            <Image url="@logo.jpg" />
          </image>
       </ImageView>
    </children>
